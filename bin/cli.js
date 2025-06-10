@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-"use strict"
 
-const path = require('path')
+const path = require('node:path')
 const { Command } = require('commander')
-const fs = require('fs')
-const readline = require('readline')
+const fs = require('node:fs')
+const readline = require('node:readline')
 
 // Check if commander is installed, if not suggest installing it
 try {
@@ -93,7 +92,7 @@ async function run() {
             }
 
             if (summary.highest.node) {
-                console.log(`\nHighest compatible Node.js version: ${summary.highest.node === 'unlimited' ? 'unlimited' : 'v' + summary.highest.node}`)
+                console.log(`\nHighest compatible Node.js version: ${summary.highest.node === 'unlimited' ? 'unlimited' : `v${summary.highest.node}`}`)
                 console.log(`Associated npm version: ${summary.highest.npm}`)
             } else {
                 console.log('\nNo upper bound found for Node.js version.')
@@ -119,7 +118,7 @@ async function run() {
                 console.log(`  "engines": {`)
                 console.log(`    "node": "${nodeConstraint}",`)
                 console.log(`    "npm": "${npmConstraint}"`)
-                console.log(`  },`)
+                console.log("  },")
                 console.log(`  "packageManager": "npm@${summary.lowest.npm}"`)
 
                 const answer = await askQuestion('\nProceed? (y/N): ')
