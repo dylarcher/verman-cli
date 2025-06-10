@@ -81,27 +81,32 @@ function compareVersions(a, b) {
 
 // Function to normalize version ranges to a comparable format
 function normalizeVersionRange(range) {
-    // Handle common version range formats
-    if (!range) return null
+    try {
+        // Handle common version range formats
+        if (range?.length > 256) {
+            throw new Error("Version exceeds 256 character limit")
+        }
+        /**
+         * ? Strip off any leading comparators and get the base version
+         * Matches a version string in the format X, X.Y, or X.Y.Z.
+         * This regex is structured to avoid "catastrophic backtracking" (ReDoS).
+         * * - `\d+`      : Matches the major version number (one or more digits).
+         * - `(\.\d+)`  : A capturing group for a literal dot followed by the minor/patch version number.
+         * - `{0,2}`    : A quantifier that specifies the preceding group can appear 0, 1, or 2 times.
+         */
+        const versionMatch = range.match(/\d+(\.\d+){0,2}/);
 
-    /**
-     * ? Strip off any leading comparators and get the base version
-     * Matches a version string in the format X, X.Y, or X.Y.Z.
-     * This regex is structured to avoid "catastrophic backtracking" (ReDoS).
-     * * - `\d+`      : Matches the major version number (one or more digits).
-     * - `(\.\d+)`  : A capturing group for a literal dot followed by the minor/patch version number.
-     * - `{0,2}`    : A quantifier that specifies the preceding group can appear 0, 1, or 2 times.
-     */
-    const versionMatch = range.match(/\d+(\.\d+){0,2}/);
+        if (versionMatch) {
+            const version = versionMatch[0]
+            // Ensure it's a proper semver with 3 parts
+            const parts = version.split(".").map(Number)
+            while (parts.length < 3) parts.push(0)
+            return parts.join(".")
+        }
 
-    if (versionMatch) {
-        const version = versionMatch[0]
-        // Ensure it's a proper semver with 3 parts
-        const parts = version.split(".").map(Number)
-        while (parts.length < 3) parts.push(0)
-        return parts.join(".")
+    } catch (error) {
+        console.error(`Error normalizing version range "${range}":`, error.message)
     }
-
     return null
 }
 
