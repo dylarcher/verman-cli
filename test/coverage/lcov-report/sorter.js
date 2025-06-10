@@ -1,4 +1,11 @@
 /* eslint-disable */
+
+// Utility function to sanitize values
+function sanitizeValue(value) {
+    const div = document.createElement('div');
+    div.textContent = value;
+    return div.innerHTML; // Escapes special characters
+}
 var addSorting = (function() {
     'use strict';
     var cols,
@@ -86,6 +93,7 @@ var addSorting = (function() {
             colNode = tableCols[i];
             col = cols[i];
             val = colNode.getAttribute('data-value');
+            val = sanitizeValue(val); // Sanitize the value
             if (col.type === 'number') {
                 val = Number(val);
             }
