@@ -1,39 +1,19 @@
-::before,
-::after,
-* {
-    box-sizing: border-box;
-}
-
-:where(html, body) {
-    min-block-size: 100dvh;
-    margin: unset;
-}
-
-html {
-    text-size-adjust: 100%;
-    color-scheme: light dark;
-    padding: unset;
-    background: linear-gradient(48deg, ghostwhite, whitesmoke);
-}
-
 body {
-    font-family: system-ui, sans-serif;
-    line-height: 1.64;
-    padding-inline: 3ch;
-    padding-block: 2ch;
-    color: darkslateblue;
+    font-family: 'Inter', sans-serif;
 }
 
-:where(header, section) {
-    margin-block-end: 1.25ch;
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 320px;
+    max-height: 400px;
 }
 
-:where(h1, h2) {
-    color: darkslategray;
-}
-
-code {
-    background: ghostwhite;
-    padding: .25ch .5ch;
-    border-radius: .5ch;
+@media (min-width: 768px) {
+    .chart-container {
+        height: 350px;
+    }
 }
