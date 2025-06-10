@@ -81,19 +81,32 @@ function compareVersions(a, b) {
 
 // Function to normalize version ranges to a comparable format
 function normalizeVersionRange(range) {
-    // Handle common version range formats
-    if (!range) return null
+    try {
+        // Handle common version range formats
+        if (range?.length > 256) {
+            throw new Error("Version exceeds 256 character limit")
+        }
+        /**
+         * ? Strip off any leading comparators and get the base version
+         * Matches a version string in the format X, X.Y, or X.Y.Z.
+         * This regex is structured to avoid "catastrophic backtracking" (ReDoS).
+         * * - `\d+`      : Matches the major version number (one or more digits).
+         * - `(\.\d+)`  : A capturing group for a literal dot followed by the minor/patch version number.
+         * - `{0,2}`    : A quantifier that specifies the preceding group can appear 0, 1, or 2 times.
+         */
+        const versionMatch = range.match(/\d+(\.\d+){0,2}/);
 
-    const versionMatch = range.match(/\d+\.\d+\.\d+|\d+\.\d+|\d+/)
+        if (versionMatch) {
+            const version = versionMatch[0]
+            // Ensure it's a proper semver with 3 parts
+            const parts = version.split(".").map(Number)
+            while (parts.length < 3) parts.push(0)
+            return parts.join(".")
+        }
 
-    if (versionMatch) {
-        const version = versionMatch[0]
-        // Ensure it's a proper semver with 3 parts
-        const parts = version.split(".").map(Number)
-        while (parts.length < 3) parts.push(0)
-        return parts.join(".")
+    } catch (error) {
+        console.error(`Error normalizing version range "${range}":`, error.message)
     }
-
     return null
 }
 
@@ -106,7 +119,7 @@ function getNodeRequirementForPackage(packageName, packageVersion) {
 
     // Normalize the version
     const normalizedVersion = normalizeVersionRange(packageVersion)
-    if (!normalizedVersion) return null
+    if (!normalizedVersion) return null;
 
     // Find the appropriate requirement
     const requirements = PACKAGE_NODE_REQUIREMENTS[packageName]
@@ -177,7 +190,7 @@ function getVersionConstraints(packagePath) {
 
 // Function to get the lowest compatible version from a range
 function getLowestCompatibleVersion(versionRange) {
-    if (!versionRange) return null
+    if (!versionRange) return null;
 
     // Handle >= or ^ or ~ notation
     if (versionRange.startsWith(">=")) {
@@ -205,7 +218,7 @@ function getLowestCompatibleVersion(versionRange) {
 
 // Function to get the highest compatible version from a range
 function getHighestCompatibleVersion(versionRange) {
-    if (!versionRange) return null
+    if (!versionRange) return null;
 
     // Handle ranges with upper bounds like ">=16.0.0,<=18.0.0"
     const upperBoundMatch = versionRange.match(/<=\s*(\d+(?:\.\d+){0,2})/)
@@ -244,7 +257,7 @@ function getHighestCompatibleVersion(versionRange) {
 // Function to collect all version constraints
 async function collectVersionConstraints(quiet = false) {
     const projectRoot = path.resolve(process.cwd())
-    if (!quiet) console.log(`Analyzing project in ${projectRoot}...`)
+    if (!quiet) console.log(`Analyzing project in ${projectRoot}...`);
 
     const constraints = []
 
@@ -252,7 +265,7 @@ async function collectVersionConstraints(quiet = false) {
     const lockfilePath = path.join(projectRoot, "package-lock.json")
     const packageJsonPath = path.join(projectRoot, "package.json")
 
-    let packageJsonData = null
+    let packageJsonData = null;
 
     if (fs.existsSync(packageJsonPath)) {
         packageJsonData = getVersionConstraints(packageJsonPath)
@@ -403,7 +416,7 @@ function getVersionSummary(constraints) {
     )
 
     // Process ALL constraints (dependencies and engines) to find the highest minimum requirement
-    const allConstraints = [...dependencyConstraints, ...engineConstraints]
+    const allConstraints = [...dependencyConstraints, ...engineConstraints];
 
     for (const constraint of allConstraints) {
         // Process Node.js constraints
@@ -552,7 +565,7 @@ function updatePackageJsonEngines(packageJsonPath, summary) {
 async function main() {
     try {
         const constraints = await collectVersionConstraints()
-        const summary = getVersionSummary(constraints)
+        const summary = getVersionSummary(constraints);
 
         console.log("\n=== Version Constraints Summary ===")
 
