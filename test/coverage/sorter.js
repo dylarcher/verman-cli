@@ -1,7 +1,7 @@
 /* eslint-disable */
 var addSorting = (function() {
     'use strict';
-    var cols,
+    var cols, sanitizeString,
         currentSort = {
             index: 0,
             desc: false
@@ -88,6 +88,8 @@ var addSorting = (function() {
             val = colNode.getAttribute('data-value');
             if (col.type === 'number') {
                 val = Number(val);
+            } else {
+                val = sanitizeString(val);
             }
             data[col.key] = val;
         }
@@ -191,6 +193,21 @@ var addSorting = (function() {
         addSortIndicators();
         enableUI();
     };
+    function sanitizeString(str) {
+        return str.replace(/[&<>"'`=\/]/g, function (char) {
+            const escapeMap = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#x27;',
+                '`': '&#x60;',
+                '=': '&#x3D;',
+                '/': '&#x2F;'
+            };
+            return escapeMap[char] || char;
+        });
+    }
 })();
 
 window.addEventListener('load', addSorting);
