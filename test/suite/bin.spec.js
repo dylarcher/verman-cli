@@ -1,10 +1,8 @@
-"use strict"
-
-const assert = require('assert')
-const fs = require('fs')
-const path = require('path')
-const os = require('os')
-const { execSync } = require('child_process')
+const assert = require('node:assert')
+const fs = require('node:fs')
+const path = require('node:path')
+const os = require('node:os')
+const { execSync } = require('node:child_process')
 
 // Test helper to create temporary directory with package.json
 function createTempProject(packageContent, lockfileContent = null) {
@@ -843,6 +841,6 @@ module.exports = {
     cliTest6, cliTest7, cliTest8, cliTest9, cliTest10,
     cliTest11, cliTest12, cliTest13, cliTest14, cliTest15,
     cliTest16, cliTest17, cliTest18, cliTest19, cliTest20,
-    cliTest21, cliTest22, cliTest23, cliTest24, cliTest25, cliTest26,
-    cliTest27, cliTest28, cliTest29, cliTest30, cliTest30
+    cliTest21, cliTest22, cliTest23, cliTest24, cliTest25,
+    cliTest26, cliTest27, cliTest28, cliTest29, cliTest30
 }

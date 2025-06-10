@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-"use strict"
 
 // Simple test runner without Node.js test framework to avoid debugger
 const { libTest1, libTest2, libTest3, libTest4, libTest5, libTest6, libTest7, libTest26, libTest27, libTest28, libTest29, libTest30, libTest32, libTest33, libTest34, libTest35, libTest36, libTest37, libTest38, libTest39, libTest40, libTest41, libTest42, libTest43, libTest44 } = require('./suite/src.spec.js')

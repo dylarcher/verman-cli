@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require("fs")
-const path = require("path")
-const { execSync } = require("child_process");
+const fs = require("node:fs")
+const path = require("node:path")
+const { execSync } = require("node:child_process")
 
 // Mapping of Node.js versions to their corresponding npm versions
 // Source: https://nodejs.org/en/download/releases/
@@ -18,7 +18,7 @@ const NODE_NPM_MAPPING = {
     "20.0.0": "9.6.4",
     "21.0.0": "10.2.0",
     "22.0.0": "10.4.0",
-};
+}
 
 // Common packages and their minimum Node.js version requirements
 // This is a simplified mapping and should be expanded for real-world use
@@ -44,14 +44,14 @@ const PACKAGE_NODE_REQUIREMENTS = {
     webpack: { "5.0.0": "10.13.0" },
     "node-fetch": { "3.0.0": "14.0.0" },
     axios: { "1.0.0": "14.0.0" },
-};
+}
 
 // Function to get npm version for a Node.js version
 function getNpmVersionForNode(nodeVersion) {
     // Find the closest version in our mapping
     const versions = Object.keys(NODE_NPM_MAPPING).sort((a, b) =>
         compareVersions(a, b),
-    );
+    )
 
     for (const version of versions) {
         if (compareVersions(nodeVersion, version) <= 0) {
@@ -66,7 +66,7 @@ function getNpmVersionForNode(nodeVersion) {
 // Simple semver comparison function
 function compareVersions(a, b) {
     const partsA = a.split(".").map(Number)
-    const partsB = b.split(".").map(Number);
+    const partsB = b.split(".").map(Number)
 
     for (let i = 0; i < 3; i++) {
         const partA = partsA[i] || 0
@@ -125,7 +125,7 @@ function getNodeRequirementForPackage(packageName, packageVersion) {
     const requirements = PACKAGE_NODE_REQUIREMENTS[packageName]
     const versions = Object.keys(requirements).sort((a, b) =>
         compareVersions(a, b),
-    );
+    )
 
     // Find the highest package version that's less than or equal to our version
     let nodeRequirement = null
@@ -143,7 +143,7 @@ function getNodeRequirementForPackage(packageName, packageVersion) {
 // Function to parse package.json and extract version constraints
 function getVersionConstraints(packagePath) {
     try {
-        const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+        const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"))
 
         const result = {
             name: packageJson.name || "unknown",
@@ -152,7 +152,7 @@ function getVersionConstraints(packagePath) {
             packageManager: packageJson.packageManager || null,
             dependencies: {},
             devDependencies: {},
-        };
+        }
 
         // Process packageManager field if present
         if (result.packageManager) {
@@ -259,11 +259,11 @@ async function collectVersionConstraints(quiet = false) {
     const projectRoot = path.resolve(process.cwd())
     if (!quiet) console.log(`Analyzing project in ${projectRoot}...`);
 
-    const constraints = [];
+    const constraints = []
 
     // Check for lockfile first
     const lockfilePath = path.join(projectRoot, "package-lock.json")
-    const packageJsonPath = path.join(projectRoot, "package.json");
+    const packageJsonPath = path.join(projectRoot, "package.json")
 
     let packageJsonData = null;
 
@@ -273,7 +273,7 @@ async function collectVersionConstraints(quiet = false) {
             if (!quiet)
                 console.log(
                     `Project ${packageJsonData.name} analyzing dependencies...`,
-                );
+                )
 
             // Add engine constraints if present
             if (packageJsonData.nodeVersion) {
@@ -331,15 +331,15 @@ async function collectVersionConstraints(quiet = false) {
         if (!quiet)
             console.log("Found package-lock.json, analyzing dependency tree...")
         try {
-            const lockfileContent = JSON.parse(fs.readFileSync(lockfilePath, "utf8"));
+            const lockfileContent = JSON.parse(fs.readFileSync(lockfilePath, "utf8"))
 
             // Parse lockfile dependencies if it has a newer format (npm v7+)
             if (lockfileContent.packages) {
                 for (const [pkgPath, pkgInfo] of Object.entries(
                     lockfileContent.packages,
                 )) {
-                // Skip the root package
-                    if (pkgPath === "") continue;
+                    // Skip the root package
+                    if (pkgPath === "") continue
 
                     const pkgName = pkgPath.split("/").pop()
                     if (pkgInfo.version) {
@@ -405,19 +405,15 @@ function getVersionSummary(constraints) {
     let highestNodeVersion = null
     let lowestNpmVersion = null
     let highestNpmVersion = null
-    let sourceType = "none";
+    let sourceType = "none"
 
     // Group constraints by source
     const engineConstraints = constraints.filter(
         (c) => c.source === "engines" && (c.nodeVersion || c.npmVersion),
     )
     const dependencyConstraints = constraints.filter(
-        (c) =>
-            (c.source === "dependency" ||
-                c.source === "devDependency" ||
-                c.source === "lockfile") &&
-            c.nodeVersion,
-    );
+        (c) => ['dependency', 'devDependency', 'lockfile'].includes(c.source) && c.nodeVersion,
+    )
 
     // Process ALL constraints (dependencies and engines) to find the highest minimum requirement
     const allConstraints = [...dependencyConstraints, ...engineConstraints];
@@ -522,7 +518,7 @@ function getVersionSummary(constraints) {
 // Function to update package.json with engine constraints
 function updatePackageJsonEngines(packageJsonPath, summary) {
     try {
-        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
 
         // Initialize engines object if it doesn't exist
         if (!packageJson.engines) {
@@ -555,8 +551,8 @@ function updatePackageJsonEngines(packageJsonPath, summary) {
         // Write back to file with proper formatting
         fs.writeFileSync(
             packageJsonPath,
-            JSON.stringify(packageJson, null, 2) + "\n",
-        );
+            `${JSON.stringify(packageJson, null, 2)}\n`,
+        )
 
         return true
     } catch (error) {
@@ -571,7 +567,7 @@ async function main() {
         const constraints = await collectVersionConstraints()
         const summary = getVersionSummary(constraints);
 
-        console.log("\n=== Version Constraints Summary ===");
+        console.log("\n=== Version Constraints Summary ===")
 
         if (summary.lowest.node) {
             console.log(
@@ -585,7 +581,7 @@ async function main() {
 
         if (summary.highest.node) {
             console.log(
-                `\nHighest compatible Node.js version: ${summary.highest.node === "unlimited" ? "unlimited" : "v" + summary.highest.node}`,
+                `\nHighest compatible Node.js version: ${summary.highest.node === "unlimited" ? "unlimited" : `v${summary.highest.node}`}`,
             )
             console.log(`Associated npm version: ${summary.highest.npm}`)
         } else {
@@ -597,7 +593,7 @@ async function main() {
         )
         console.log(
             "For precise requirements, review each dependency's documentation.",
-        );
+        )
 
         // Update package.json with the determined engine constraints
         const packageJsonPath = path.join(process.cwd(), "package.json")
