@@ -1,248 +1,278 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Industry Trends & Market Research: The AI-Powered Analytics Market</title>
+    <title>Verman: Node.js Version Compatibility Analysis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
 </head>
 
-<!--
-    Palette Selection: Brilliant Blues (#005F73, #0A9396, #94D2BD, #E9D8A6, #EE9B00, #CA6702, #BB3E03, #AE2012, #9B2226)
+<body class="antialiased">
 
-    Narrative Plan:
-    1. Hook: Grab attention with a large headline and the projected market value.
-    2. Market Overview: Present the current market size and its strong growth trajectory using a line chart.
-    3. Market Share Analysis: Detail the competitive landscape with a donut chart showing key players' dominance.
-    4. Key Trends: Use styled cards to highlight the primary drivers of growth (e.g., Hyper-Automation, Predictive CX).
-    5. Technology Adoption: Visualize adoption rates across industries with a stacked bar chart to show where the investment is happening.
-    6. Consumer Profile: Use a radar chart to illustrate the ideal customer profile for AI analytics solutions.
-    7. SWOT Analysis: Organize strengths, weaknesses, opportunities, and threats in a 2x2 grid built with HTML/CSS.
-    8. Value Chain: Depict the "Data-to-Decision" process flow using a structured HTML/CSS diagram.
-    9. Conclusion: Summarize the findings and reinforce the market's potential.
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
 
-    Visualization Justification Summary (Confirming NO SVG / NO MERMAID JS):
-    - Market Growth (Data Point) -> Goal: Change -> Chosen Viz: Line Chart (Chart.js/Canvas) -> Justification: Ideal for showing trends over time.
-    - Market Share (Data Point) -> Goal: Compare -> Chosen Viz: Donut Chart (Chart.js/Canvas) -> Justification: Clearly shows composition of a whole.
-    - Tech Adoption (Data Point) -> Goal: Compare -> Chosen Viz: Stacked Bar Chart (Chart.js/Canvas) -> Justification: Compares composition within multiple categories (industries).
-    - Ideal Customer Profile (Data Point) -> Goal: Compare -> Chosen Viz: Radar Chart (Chart.js/Canvas) -> Justification: Excellent for comparing multiple quantitative variables for a single subject.
-    - SWOT Analysis (Concept) -> Goal: Organize -> Chosen Viz: 2x2 HTML/CSS Grid -> Justification: Classic, clear layout for categorical information. NO SVG used.
-    - Value Chain (Process) -> Goal: Organize -> Chosen Viz: HTML/CSS Flexbox Flowchart -> Justification: Effectively shows a linear process without needing SVG lines. NO MERMAID/SVG used.
-    - Key Statistics (Data Point) -> Goal: Inform -> Chosen Viz: Large Text Numbers -> Justification: High impact method to convey single, critical data points.
+        <header class="text-center my-12 md:my-16">
+            <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight">verman</h1>
+            <p class="text-xl md:text-2xl text-[#ade8f4] mt-4 max-w-3xl mx-auto">A Deep Dive into Node.js Version
+                Compatibility
+                Analysis</p>
+        </header>
 
-    Confirmation: NEITHER Mermaid JS NOR SVG were used in this output. All visualizations are rendered using Chart.js to Canvas or structured with standard HTML and Tailwind CSS.
--->
+        <main class="space-y-16">
 
-<body class="bg-gray-50 text-gray-800">
-    <header class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold leading-tight text-[#005F73]">AI-Powered Analytics Market</h1>
-            <p class="mt-2 text-lg text-gray-600">A Deep Research Report on Industry Trends & Projections</p>
-        </div>
-    </header>
-
-    <main class="py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-            <section class="text-center mb-16">
-                <h2 class="text-4xl font-extrabold text-[#005F73] sm:text-5xl">The Ascent of AI Analytics</h2>
-                <p class="mt-4 text-xl text-gray-600">Uncovering a Market Projected to Reach</p>
-                <p class="mt-2 text-7xl font-black text-[#EE9B00]">$215.7 Billion</p>
-                <p class="mt-2 text-xl text-gray-600">by 2030, with a CAGR of 28.9%</p>
+            <section class="text-center max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-white mb-4">Navigating the Node.js Version Maze</h2>
+                <p class="text-lg text-gray-300 leading-relaxed">
+                    The Node.js ecosystem's strength is its vast collection of packages. However, this creates a
+                    significant
+                    challenge: managing version compatibility. A single project can have hundreds of dependencies, each
+                    with a
+                    specific Node.js version requirement in its `engines` field. A conflict, even one buried deep in the
+                    dependency
+                    tree, can halt development and create complex environment issues. `verman` is a proposed CLI tool
+                    designed to
+                    navigate this maze by analyzing the entire dependency graph to provide clear, actionable insights
+                    into a
+                    project's true Node.js compatibility.
+                </p>
             </section>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#005F73] mb-4">Market Growth Trajectory (USD Billions)</h3>
-                    <p class="text-gray-600 mb-4">The global AI analytics market is experiencing exponential growth,
-                        driven
-                        by the
-                        increasing volume of data and the demand for actionable insights. This chart illustrates the
-                        market's value from
-                        2022, with a strong forecast indicating sustained expansion through 2030.</p>
-                    <div class="chart-container">
-                        <canvas id="marketGrowthChart"></canvas>
-                    </div>
+            <section id="features" class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="stat-card bg-[#004e92] p-6 rounded-lg shadow-xl">
+                    <h4>5+</h4>
+                    <p class="mt-2 text-lg font-semibold text-[#ade8f4]">Lockfile Types Supported</p>
+                    <p class="mt-1 text-sm text-gray-200">Scans npm, Yarn, Bun, and pnpm lockfiles for a complete
+                        dependency
+                        picture.</p>
                 </div>
-            
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#005F73] mb-4">Global Market Share Analysis (2024)</h3>
-                    <p class="text-gray-600 mb-4">The competitive landscape is concentrated among a few key players who
-                        hold
-                        a
-                        significant portion of the market. This donut chart displays the current distribution,
-                        highlighting
-                        the
-                        dominance of established enterprise tech giants and the collective share of emerging innovators.
-                    </p>
-                    <div class="chart-container">
-                        <canvas id="marketShareChart"></canvas>
-                    </div>
+                <div class="stat-card bg-[#004e92] p-6 rounded-lg shadow-xl">
+                    <h4>100%</h4>
+                    <p class="mt-2 text-lg font-semibold text-[#ade8f4]">Recursive Dependency Traversal</p>
+                    <p class="mt-1 text-sm text-gray-200">Analyzes the entire dependency tree, from direct dependencies
+                        to the most
+                        deeply nested packages.</p>
                 </div>
-            
-                <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-2xl font-bold text-[#005F73] text-center mb-2">Key Trends Fueling Market Expansion
-                    </h3>
-                    <p class="text-gray-600 mb-8 text-center max-w-3xl mx-auto">Several powerful trends are converging
-                        to
-                        accelerate the
-                        adoption of AI-powered analytics. These drivers are fundamentally changing how businesses
-                        operate,
-                        innovate, and
-                        compete in the digital age.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                        <div class="border border-gray-200 rounded-lg p-6">
-                            <span class="text-5xl">⚙️</span>
-                            <h4 class="text-lg font-semibold mt-4 mb-2 text-[#0A9396]">Hyper-Automation</h4>
-                            <p class="text-gray-600">The integration of AI and machine learning to automate complex
-                                business
-                                processes
-                                beyond simple task automation, leading to significant efficiency gains.</p>
-                        </div>
-                        <div class="border border-gray-200 rounded-lg p-6">
-                            <span class="text-5xl">🧠</span>
-                            <h4 class="text-lg font-semibold mt-4 mb-2 text-[#0A9396]">Predictive Customer Experience
-                            </h4>
-                            <p class="text-gray-600">Utilizing AI to anticipate customer needs, personalize
-                                interactions,
-                                and
-                                proactively address issues, thereby enhancing loyalty and retention.</p>
-                        </div>
-                        <div class="border border-gray-200 rounded-lg p-6">
-                            <span class="text-5xl">📊</span>
-                            <h4 class="text-lg font-semibold mt-4 mb-2 text-[#0A9396]">Data Democratization</h4>
-                            <p class="text-gray-600">Empowering non-technical users with accessible AI tools and
-                                platforms
-                                to perform
-                                data analysis, fostering a data-driven culture across organizations.</p>
-                        </div>
-                    </div>
+                <div class="stat-card bg-[#004e92] p-6 rounded-lg shadow-xl">
+                    <h4>1</h4>
+                    <p class="mt-2 text-lg font-semibold text-[#ade8f4]">Consolidated Compatibility Report</p>
+                    <p class="mt-1 text-sm text-gray-200">Calculates a single, unified Node.js version range for your
+                        entire project and
+                        its workspaces.</p>
                 </div>
-            
-                <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#005F73] mb-4">Technology Adoption Rates by Industry</h3>
-                    <p class="text-gray-600 mb-4">Adoption of AI technologies varies across sectors. The financial
-                        services
-                        and
-                        healthcare industries are leading the charge in implementing Machine Learning and Natural
-                        Language
-                        Processing,
-                        while retail shows strong growth in Computer Vision for inventory management and customer
-                        analytics.
-                    </p>
-                    <div class="chart-container h-[400px] max-h-[500px] mx-auto">
-                        <canvas id="techAdoptionChart"></canvas>
-                    </div>
-                </div>
-            
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#005F73] mb-4">Ideal Customer Profile Analysis</h3>
-                    <p class="text-gray-600 mb-4">Successful AI analytics vendors target clients with specific
-                        characteristics. This
-                        radar chart visualizes the ideal customer profile, scoring attributes from 1 to 10. High scores
-                        in
-                        Data Maturity
-                        and Tech Savviness are strong indicators of a successful partnership.</p>
-                    <div class="chart-container">
-                        <canvas id="customerProfileChart"></canvas>
-                    </div>
-                </div>
-            
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold text-[#005F73] mb-4">SWOT Analysis</h3>
-                    <p class="text-gray-600 mb-4">A strategic overview of the AI analytics market reveals a dynamic
-                        interplay of
-                        internal strengths and weaknesses, alongside external opportunities and threats that will shape
-                        its
-                        future.</p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-                            <h4 class="font-bold text-green-800">Strengths</h4>
-                            <ul class="list-disc list-inside text-sm text-green-700 mt-2">
-                                <li>High accuracy & efficiency</li>
-                                <li>Scalability across industries</li>
-                                <li>Drives competitive advantage</li>
-                            </ul>
-                        </div>
-                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-                            <h4 class="font-bold text-red-800">Weaknesses</h4>
-                            <ul class="list-disc list-inside text-sm text-red-700 mt-2">
-                                <li>High implementation cost</li>
-                                <li>Shortage of skilled talent</li>
-                                <li>Data quality dependency</li>
-                            </ul>
-                        </div>
-                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                            <h4 class="font-bold text-blue-800">Opportunities</h4>
-                            <ul class="list-disc list-inside text-sm text-blue-700 mt-2">
-                                <li>Expansion into SMBs</li>
-                                <li>Integration with IoT & Edge</li>
-                                <li>New vertical market entry</li>
-                            </ul>
-                        </div>
-                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                            <h4 class="font-bold text-yellow-800">Threats</h4>
-                            <ul class="list-disc list-inside text-sm text-yellow-700 mt-2">
-                                <li>Data privacy regulations</li>
-                                <li>Ethical concerns & bias</li>
-                                <li>Intensifying competition</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                </section>
 
-                <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-2xl font-bold text-[#005F73] text-center mb-2">The Data-to-Decision Value Chain</h3>
-                    <p class="text-gray-600 mb-8 text-center max-w-3xl mx-auto">The process of transforming raw data
-                        into actionable
-                        business intelligence follows a clear value chain, enabled at each step by AI and automation.
-                    </p>
-                    <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                        <div class="text-center p-4 border-2 border-[#94D2BD] rounded-lg w-48">
-                            <h4 class="font-bold text-[#005F73]">1. Data Ingestion</h4>
-                            <p class="text-sm text-gray-600">Collecting raw structured & unstructured data.</p>
-                        </div>
-                        <div class="text-2xl font-bold text-[#0A9396] transform md:-rotate-0 rotate-90">→</div>
-                        <div class="text-center p-4 border-2 border-[#94D2BD] rounded-lg w-48">
-                            <h4 class="font-bold text-[#005F73]">2. Data Processing</h4>
-                            <p class="text-sm text-gray-600">Cleaning, preparing, and transforming data with AI.</p>
-                        </div>
-                        <div class="text-2xl font-bold text-[#0A9396] transform md:-rotate-0 rotate-90">→</div>
-                        <div class="text-center p-4 border-2 border-[#94D2BD] rounded-lg w-48">
-                            <h4 class="font-bold text-[#005F73]">3. AI Analysis</h4>
-                            <p class="text-sm text-gray-600">Applying ML models to uncover patterns.</p>
-                        </div>
-                        <div class="text-2xl font-bold text-[#0A9396] transform md:-rotate-0 rotate-90">→</div>
-                        <div class="text-center p-4 border-2 border-[#94D2BD] rounded-lg w-48">
-                            <h4 class="font-bold text-[#005F73]">4. Insight Delivery</h4>
-                            <p class="text-sm text-gray-600">Visualizing findings on dashboards.</p>
-                        </div>
-                        <div class="text-2xl font-bold text-[#0A9396] transform md:-rotate-0 rotate-90">→</div>
-                        <div class="text-center p-4 border-2 border-[#EE9B00] rounded-lg w-48">
-                            <h4 class="font-bold text-[#CA6702]">5. Actionable Decision</h4>
-                            <p class="text-sm text-gray-600">Making informed, data-driven business choices.</p>
-                        </div>
+            <section id="pipeline" class="bg-white rounded-lg shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center text-[#000428] mb-4">The `verman` Analysis Pipeline</h2>
+                <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+                    `verman` follows a systematic, multi-stage process to determine project-wide version compatibility.
+                    It starts by
+                    identifying the project structure and parsing the most reliable lockfile available. It then
+                    recursively analyzes
+                    the dependency tree to aggregate all `engines` constraints, which are finally used to calculate a
+                    unified,
+                    compatible Node.js version range.
+                </p>
+                <div class="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-y-4 md:gap-x-4">
+                    <div class="flow-box p-4 rounded-lg text-center w-full md:w-1/4">
+                        <h3 class="font-bold text-lg mb-2">1. Detect & Parse</h3>
+                        <p class="text-sm">Identifies project type (npm, Yarn, etc.) and parses the appropriate lockfile
+                            (`package-lock.json`, `yarn.lock`) for a dependency snapshot.</p>
+                    </div>
+                    <div class="flex items-center justify-center transform md:rotate-0">
+                        <div class="flow-arrow">→</div>
+                    </div>
+                    <div class="flow-box p-4 rounded-lg text-center w-full md:w-1/4">
+                        <h3 class="font-bold text-lg mb-2">2. Traverse & Collect</h3>
+                        <p class="text-sm">Walks the dependency tree defined by the lockfile, collecting `engines.node`
+                            data. Falls back to
+                            inspecting `package.json` files if needed.</p>
+                    </div>
+                    <div class="flex items-center justify-center transform md:rotate-0">
+                        <div class="flow-arrow">→</div>
+                    </div>
+                    <div class="flow-box p-4 rounded-lg text-center w-full md:w-1/4">
+                        <h3 class="font-bold text-lg mb-2">3. Intersect & Calculate</h3>
+                        <p class="text-sm">Uses SemVer logic to find the intersection of all collected constraints,
+                            determining the single
+                            compatible version range for the entire project.</p>
+                    </div>
+                    <div class="flex items-center justify-center transform md:rotate-0">
+                        <div class="flow-arrow">→</div>
+                    </div>
+                    <div class="flow-box p-4 rounded-lg text-center w-full md:w-1/4">
+                        <h3 class="font-bold text-lg mb-2">4. Report & Display</h3>
+                        <p class="text-sm">Presents the findings in a clear, interactive CLI report, with an optional
+                            structured JSON output
+                            for automation and CI/CD integration.</p>
                     </div>
                 </div>
-                </div>
-                </div>
-                </main>
+                </section>
 
-    <footer class="bg-white mt-10">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-            <p>&copy; 2024 Deep Research Inc. All rights reserved.</p>
-            <p class="text-sm mt-1">This document is for informational purposes only.</p>
-        </div>
-    </footer>
+            <section id="gemini-advisor" class="bg-white rounded-lg shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center text-[#000428] mb-4">✨ Gemini-Powered Compatibility Advisor
+                </h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Beyond just calculating version ranges, `verman` could leverage the power of Large Language Models
+                    via the
+                    Gemini API to provide deeper insights and actionable advice. Imagine getting human-like explanations
+                    of complex
+                    compatibility reports or intelligent suggestions for resolving version conflicts.
+                </p>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 max-w-2xl mx-auto">
+                    <h3 class="text-xl font-semibold text-[#004e92] mb-3">Mock Verman Analysis Summary:</h3>
+                    <div class="text-gray-700 space-y-2 mb-4">
+                        <p><strong>Project:</strong> `my-awesome-app`</p>
+                        <p><strong>Calculated Node.js Compatibility:</strong> <code
+                                class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">>=16.0.0 <18.0.0</code></p>
+                        <p><strong>Key Dependencies & Constraints:</strong></p>
+                        <ul class="list-disc list-inside ml-4 text-sm">
+                            <li>`express`: `^14.0.0 || ^16.0.0`</li>
+                            <li>`lodash`: `>=12.0.0`</li>
+                            <li>`left-pad` (transitive): `>=18.0.0` <span class="text-red-600 font-bold">(Potential
+                                    Conflict!)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                        <button id="explainReportBtn" class="gemini-button w-full sm:w-auto">✨ Explain This
+                            Report</button>
+                        <button id="suggestSolutionsBtn" class="gemini-button w-full sm:w-auto">✨ Suggest Conflict
+                            Solutions</button>
+                    </div>
+                    <div id="geminiResponseArea" class="gemini-output">
+                        <p class="text-gray-400">AI-powered insights will appear here...</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div id="lockfile-matrix" class="bg-white rounded-lg shadow-2xl p-6 md:p-8 lg:col-span-3">
+                    <h2 class="text-2xl font-bold text-[#000428] mb-4">Lockfile Support & Data Richness</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        A key feature of `verman` is its ability to parse various lockfile formats. Performance and data
+                        completeness vary significantly across types. Modern `package-lock.json` versions are the most
+                        informative
+                        as they embed `engines` data directly, eliminating the need for slower file system lookups into
+                        `node_modules`.
+                    </p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-gray-800">
+                            <thead class="bg-gray-100 text-gray-600">
+                                <tr>
+                                    <th class="p-3 font-semibold">Lockfile</th>
+                                    <th class="p-3 font-semibold">Package Manager</th>
+                                    <th class="p-3 font-semibold text-center">'engines' Embedded</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="p-3 font-medium">package-lock.json (v2/v3)</td>
+                                    <td class="p-3">npm 7+</td>
+                                    <td class="p-3 text-center text-green-600 font-bold">✔ Yes</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="p-3 font-medium">package-lock.json (v1)</td>
+                                    <td class="p-3">npm 5/6</td>
+                                    <td class="p-3 text-center text-red-600 font-bold">✖ No</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3 font-medium">yarn.lock</td>
+                                    <td class="p-3">Yarn 1</td>
+                                    <td class="p-3 text-center text-red-600 font-bold">✖ No</td>
+                                </tr>
+                                <tr class="border-b bg-gray-50">
+                                    <td class="p-3 font-medium">bun.lockb</td>
+                                    <td class="p-3">Bun</td>
+                                    <td class="p-3 text-center text-yellow-500 font-bold">~ Indirect</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3 font-medium">npm-shrinkwrap.json</td>
+                                    <td class="p-3">npm (Legacy)</td>
+                                    <td class="p-3 text-center text-yellow-500 font-bold">~ Depends</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="tech-stack" class="bg-white rounded-lg shadow-2xl p-6 md:p-8 lg:col-span-2">
+                    <h2 class="text-2xl font-bold text-[#000428] mb-4">Key Player: CLI Frameworks</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        The choice of CLI framework is critical for usability. Yargs is the recommended choice for
+                        `verman` due to its
+                        powerful validation, extensive features, and highly customizable help menus, ensuring a polished
+                        and reliable
+                        user experience.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="cliFrameworkChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="roadmap" class="bg-white rounded-lg shadow-2xl p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center text-[#000428] mb-4">Phased Development Roadmap</h2>
+                <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+                    The development of `verman` is envisioned in three distinct phases. This approach begins with a
+                    Minimum Viable
+                    Product (MVP) to establish core analysis functionality, then progressively adds broader
+                    compatibility for
+                    different package managers, and finally incorporates advanced features like monorepo support.
+                </p>
+                <div class="relative pl-8 sm:pl-12">
+                    <div class="absolute left-4 sm:left-6 top-0 h-full w-0.5 bg-[#ade8f4]"></div>
+                    <div class="space-y-12">
+                        <div class="relative timeline-item">
+                            <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-[#4286f4]">
+                                <h3 class="text-xl font-bold text-[#004e92]">Phase 1: Minimum Viable Product (MVP)</h3>
+                                <p class="mt-2 text-gray-700">Establish the core analysis engine by focusing on
+                                    `package-lock.json`
+                                    (v2/v3), implementing the fundamental SemVer intersection logic, and providing a
+                                    simple, static CLI
+                                    output. This phase validates the core concept.</p>
+                            </div>
+                        </div>
+                        <div class="relative timeline-item">
+                            <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-[#4286f4]">
+                                <h3 class="text-xl font-bold text-[#004e92]">Phase 2: Expanded Support & Interactivity
+                                </h3>
+                                <p class="mt-2 text-gray-700">Broaden compatibility by adding parsers for `yarn.lock`
+                                    and `bun.lockb`. Introduce
+                                    the full interactive prompt report using Inquirer.js to allow users to explore
+                                    dependency details
+                                    dynamically.</p>
+                            </div>
+                        </div>
+                        <div class="relative timeline-item">
+                            <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-[#4286f4]">
+                                <h3 class="text-xl font-bold text-[#004e92]">Phase 3: Workspaces & Advanced Features
+                                </h3>
+                                <p class="mt-2 text-gray-700">Implement full support for monorepos (npm, Yarn, pnpm
+                                    workspaces), providing both
+                                    isolated and aggregated reports. Add a `--json` output for CI/CD integration and
+                                    focus on performance
+                                    optimization.</p>
+                            </div>
+                        </div>
+                        </div>
+                </div>
+            </section>
+            </main>
+        <footer class="text-center mt-16 pb-8">
+            <p class="text-gray-400">Infographic based on the Deep Research report for `verman`.</p>
+            <p class="text-xs text-gray-500 mt-2">Generated by Canvas Infographics. This output does not contain SVG or
+                Mermaid
+                JS. Color Palette: Brilliant Blues.</p>
+        </footer>
+    </div>
 
     <script src="main.js"></script>
+
 </body>
 
 </html>

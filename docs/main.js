@@ -1,288 +1,220 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const wrapLabel = (label, maxLength = 16) => {
-        if (typeof label !== "string" || label.length <= maxLength) {
-            return label
+    const brilliantBlues = {
+        darkBlue: "#000428",
+        mediumBlue: "#004e92",
+        brightBlue: "#4286f4",
+        lightBlue: "#ade8f4",
+        white: "#ffffff",
+    }
+
+    const wrapLabel = (str, maxLen = 16) => {
+        if (typeof str !== "string" || str.length <= maxLen) {
+            return str
         }
-        const words = label.split(" ")
+        const words = str.split(" ")
         const lines = []
         let currentLine = ""
         for (const word of words) {
             if (
-                (`${currentLine} ${word}`).length > maxLength &&
+                (`${currentLine} ${word}`).trim().length > maxLen &&
                 currentLine.length > 0
             ) {
-                lines.push(currentLine)
+                lines.push(currentLine.trim())
                 currentLine = word
             } else {
-                if (currentLine.length > 0) {
-                    currentLine += ` ${word}`
-                } else {
-                    currentLine = word
-                }
+                currentLine = (`${currentLine} ${word}`).trim()
             }
         }
-        lines.push(currentLine)
-        return lines
-    }
-
-    const tooltipTitleCallback = (tooltipItems) => {
-        const item = tooltipItems[0]
-        const label = item.chart.data.labels[item.dataIndex]
-        if (Array.isArray(label)) {
-            return label.join(" ")
+        if (currentLine) {
+            lines.push(currentLine.trim());
         }
-        return label
-    }
+        return lines
+    };
 
-    const sharedChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: "bottom",
-                labels: {
-                    color: "#374151",
-                    font: {
-                        size: 12,
-                    },
-                },
-            },
-            tooltip: {
-                callbacks: {
-                    title: tooltipTitleCallback,
-                },
+    const baseTooltipConfig = {
+        callbacks: {
+            title: (tooltipItems) => {
+                const item = tooltipItems[0]
+                if (!item) return ""
+                const label = item.chart.data.labels[item.dataIndex]
+                if (Array.isArray(label)) {
+                    return label.join(" ")
+                }
+                return label
             },
         },
-        scales: {
-            y: {
-                ticks: { color: "#374151" },
-                grid: { color: "#e5e7eb" },
-            },
-            x: {
-                ticks: { color: "#374151" },
-                grid: { display: false },
-            },
-        },
-    }
+    };
 
-    const colors = {
-        primary: "#0A9396",
-        secondary: "#94D2BD",
-        accent: "#EE9B00",
-        danger: "#AE2012",
-        neutral: "#E9D8A6",
-        dark: "#005F73",
-    }
-
-    const ctxGrowth = document
-        .getElementById("marketGrowthChart")
-        ?.getContext("2d")
-    if (ctxGrowth) {
-        new Chart(ctxGrowth, {
-            type: "line",
-            data: {
-                labels: [
-                    "2022",
-                    "2023",
-                    "2024",
-                    "2025",
-                    "2026",
-                    "2027",
-                    "2028",
-                    "2029",
-                    "2030",
-                ],
-                datasets: [
-                    {
-                        label: "Market Value (USD Billion)",
-                        data: [35.2, 45.4, 58.5, 75.3, 97.0, 125.0, 155.8, 185.1, 215.7],
-                        fill: true,
-                        backgroundColor: "rgba(148, 210, 189, 0.2)",
-                        borderColor: colors.primary,
-                        tension: 0.4,
-                        pointBackgroundColor: colors.primary,
-                        pointBorderColor: "#fff",
-                        pointHoverRadius: 7,
-                        pointHoverBackgroundColor: "#fff",
-                        pointHoverBorderColor: colors.primary,
-                    },
-                ],
-            },
-            options: { ...sharedChartOptions },
-        })
-    }
-
-    const ctxShare = document
-        .getElementById("marketShareChart")
-        ?.getContext("2d")
-    if (ctxShare) {
-        new Chart(ctxShare, {
-            type: "doughnut",
-            data: {
-                labels: [
-                    "Enterprise Tech Giants",
-                    "Data Platform Specialists",
-                    "Niche AI Innovators",
-                    "Consulting Firms",
-                ],
-                datasets: [
-                    {
-                        label: "Market Share",
-                        data: [45, 25, 20, 10],
-                        backgroundColor: [
-                            colors.dark,
-                            colors.primary,
-                            colors.secondary,
-                            colors.neutral,
-                        ],
-                        borderColor: "#ffffff",
-                        borderWidth: 2,
-                        hoverOffset: 4,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: "bottom",
-                        labels: {
-                            color: "#374151",
-                        },
-                    },
-                    tooltip: {
-                        callbacks: {
-                            title: tooltipTitleCallback,
-                        },
-                    },
-                },
-            },
-        })
-    }
-
-    const ctxTechAdoption = document
-        .getElementById("techAdoptionChart")
-        ?.getContext("2d")
-    if (ctxTechAdoption) {
-        new Chart(ctxTechAdoption, {
+    const cliFrameworkCtx = document.getElementById("cliFrameworkChart")
+    if (cliFrameworkCtx) {
+        new Chart(cliFrameworkCtx, {
             type: "bar",
             data: {
-                labels: [
-                    "Financial Services",
-                    "Healthcare & Life Sciences",
-                    "Retail & E-commerce",
-                    "Manufacturing",
-                ],
+                labels: ["Commander.js", "Yargs", "oclif"].map((label) =>
+                    wrapLabel(label),
+                ),
                 datasets: [
                     {
-                        label: "Machine Learning",
-                        data: [85, 80, 70, 60],
-                        backgroundColor: colors.dark,
-                    },
-                    {
-                        label: "Natural Language Processing",
-                        data: [75, 82, 65, 50],
-                        backgroundColor: colors.primary,
-                    },
-                    {
-                        label: "Computer Vision",
-                        data: [40, 30, 75, 65],
-                        backgroundColor: colors.secondary,
-                    },
-                ],
-            },
-            options: {
-                ...sharedChartOptions,
-                scales: {
-                    x: {
-                        stacked: true,
-                        ticks: {
-                            color: "#374151",
-                            callback: function(value, index, values) {
-                                return wrapLabel(this.getLabelForValue(value))
-                            },
-                        },
-                    },
-                    y: {
-                        stacked: true,
-                        title: {
-                            display: true,
-                            text: "Adoption Rate (%)",
-                        },
-                    },
-                },
-                plugins: {
-                    legend: {
-                        position: "bottom",
-                    },
-                    tooltip: {
-                        mode: "index",
-                        intersect: false,
-                    },
-                },
-            },
-        })
-    }
-
-    const ctxCustomerProfile = document
-        .getElementById("customerProfileChart")
-        ?.getContext("2d")
-    if (ctxCustomerProfile) {
-        new Chart(ctxCustomerProfile, {
-            type: "radar",
-            data: {
-                labels: [
-                    "Data Maturity",
-                    "Tech Savviness",
-                    ["Annual Revenue", "(> $500M)"],
-                    "Digital Transformation",
-                    "Executive Buy-in",
-                ],
-                datasets: [
-                    {
-                        label: "Ideal Customer Profile Score",
-                        data: [9, 8, 7, 9, 10],
-                        fill: true,
-                        backgroundColor: "rgba(238, 155, 0, 0.2)",
-                        borderColor: colors.accent,
-                        pointBackgroundColor: colors.accent,
-                        pointBorderColor: "#fff",
-                        pointHoverBackgroundColor: "#fff",
-                        pointHoverBorderColor: colors.accent,
+                        label: "Qualitative Score",
+                        data: [7, 9, 8],
+                        backgroundColor: [
+                            brilliantBlues.lightBlue,
+                            brilliantBlues.brightBlue,
+                            brilliantBlues.mediumBlue,
+                        ],
+                        borderColor: brilliantBlues.white,
+                        borderWidth: 2,
+                        borderRadius: 4,
                     },
                 ],
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                indexAxis: "y",
                 plugins: {
                     legend: {
                         display: false,
                     },
-                    tooltip: {
-                        callbacks: {
-                            title: tooltipTitleCallback,
-                        },
-                    },
+                    tooltip: baseTooltipConfig,
                 },
                 scales: {
-                    r: {
+                    x: {
                         beginAtZero: true,
                         max: 10,
-                        pointLabels: {
-                            font: {
-                                size: 11,
-                            },
-                            color: "#374151",
+                        title: {
+                            display: true,
+                            text: "Robustness & Feature Score",
+                            color: brilliantBlues.mediumBlue,
+                            font: { weight: "600" },
                         },
+                        grid: { color: "#e0e0e020" },
                         ticks: {
-                            color: "#374151",
-                            backdropColor: "transparent",
+                            color: brilliantBlues.mediumBlue,
+                            font: { weight: "600" },
+                        },
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            color: brilliantBlues.mediumBlue,
+                            font: { weight: "600", size: 14 },
                         },
                     },
                 },
             },
+        })
+    }
+
+    const explainReportBtn = document.getElementById("explainReportBtn")
+    const suggestSolutionsBtn = document.getElementById("suggestSolutionsBtn")
+    const geminiResponseArea = document.getElementById("geminiResponseArea")
+
+    const mockVermanReport = {
+        projectName: "my-awesome-app",
+        compatibleNodeRange: ">=16.0.0 <18.0.0",
+        dependencies: [
+            {
+                name: "express",
+                constraint: "^14.0.0 || ^16.0.0",
+                status: "compatible",
+            },
+            { name: "lodash", constraint: ">=12.0.0", status: "compatible" },
+            { name: "left-pad", constraint: ">=18.0.0", status: "conflict" },
+        ],
+        hasConflict: true,
+    }
+
+    async function callGeminiAPI(prompt) {
+        geminiResponseArea.innerHTML =
+            '<div class="loader"></div><p class="text-center text-sm text-gray-400">Generating insights...</p>'
+
+        const chatHistory = [{ role: "user", parts: [{ text: prompt }] }]
+        const payload = { contents: chatHistory }
+        const apiKey = "" // API key will be injected by the environment if needed
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.error("Gemini API Error:", errorData)
+                throw new Error(
+                    `API request failed with status ${response.status}: ${errorData.error?.message || "Unknown error"}`,
+                )
+            }
+
+            const result = await response.json()
+
+            if (
+                result.candidates &&
+                result.candidates.length > 0 &&
+                result.candidates[0].content &&
+                result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0
+            ) {
+                const text = result.candidates[0].content.parts[0].text
+                geminiResponseArea.textContent = text
+            } else {
+                console.error("Unexpected API response structure:", result)
+                geminiResponseArea.textContent =
+                    "Could not retrieve insights. The response from the AI was not in the expected format."
+                if (result.promptFeedback?.blockReason) {
+                    geminiResponseArea.textContent += `\nReason: ${result.promptFeedback.blockReason}`
+                    if (
+                        result.promptFeedback.blockReason === "SAFETY" &&
+                        result.promptFeedback.safetyRatings
+                    ) {
+                        for (const rating of result.promptFeedback.safetyRatings) {
+                            geminiResponseArea.textContent += `\nCategory: ${rating.category}, Probability: ${rating.probability}`
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error calling Gemini API:", error)
+            geminiResponseArea.textContent = `An error occurred while fetching insights: ${error.message}. Check the console for more details.`
+        }
+    }
+
+    if (explainReportBtn) {
+        explainReportBtn.addEventListener("click", () => {
+            const prompt = `
+                                        Explain the following Node.js compatibility report for a project named "${mockVermanReport.projectName}":
+                                        - Overall Compatible Node.js Range: ${mockVermanReport.compatibleNodeRange}
+                                        - Dependencies:
+                                          ${mockVermanReport.dependencies.map((dep) => `  - ${dep.name} (requires: ${dep.constraint}, status: ${dep.status})`).join("\n")}
+                                        Focus on what the overall range means for the project and highlight any specific dependency issues or points of attention.
+                                        Be concise and clear.
+                                    `
+            callGeminiAPI(prompt)
+        })
+    }
+
+    if (suggestSolutionsBtn) {
+        suggestSolutionsBtn.addEventListener("click", () => {
+            if (!mockVermanReport.hasConflict) {
+                geminiResponseArea.textContent =
+                    "No conflicts detected in the mock report. Nothing to suggest solutions for!"
+                return
+            }
+            const conflictingDeps = mockVermanReport.dependencies.filter(
+                (dep) => dep.status === "conflict",
+            )
+            const prompt = `
+                The following Node.js compatibility report for project "${mockVermanReport.projectName}" shows conflicts:
+                - Overall Compatible Node.js Range: ${mockVermanReport.compatibleNodeRange}
+                - Conflicting Dependencies:
+                  ${conflictingDeps.map((dep) => `  - ${dep.name} (requires: ${dep.constraint})`).join("\n")}
+                Please suggest potential solutions or strategies to resolve these Node.js version conflicts. Consider options like upgrading/downgrading packages, using npm/yarn overrides or resolutions, or checking for alternative packages.
+                Provide actionable advice.
+            `
+            callGeminiAPI(prompt)
         })
     }
 })
