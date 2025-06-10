@@ -1,0 +1,11 @@
+{
+    "typeAcquisition": {
+        "enable": true,
+        "include": [
+            "@types/node",
+            "c8/node",
+            "c8/globals",
+            "c8/experimental",
+        ]
+    }
+}
