@@ -399,11 +399,7 @@ function getVersionSummary(constraints) {
         (c) => c.source === "engines" && (c.nodeVersion || c.npmVersion),
     )
     const dependencyConstraints = constraints.filter(
-        (c) =>
-            (c.source === "dependency" ||
-                c.source === "devDependency" ||
-                c.source === "lockfile") &&
-            c.nodeVersion,
+        (c) => ['dependency', 'devDependency', 'lockfile'].includes(c.source) && c.nodeVersion,
     )
 
     // Process ALL constraints (dependencies and engines) to find the highest minimum requirement
