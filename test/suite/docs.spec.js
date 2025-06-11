@@ -1,6 +1,4 @@
-"use strict"
-
-const assert = require('assert')
+const assert = require('node:assert')
 const main = require('../../docs/main.js')
 
 function docTest1() {
