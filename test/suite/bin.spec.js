@@ -2,7 +2,7 @@ const assert = require('node:assert')
 const fs = require('node:fs')
 const path = require('node:path')
 const os = require('node:os')
-const { execSync } = require('node:child_process')
+const { execSync, execFileSync } = require('node:child_process')
 
 // Test helper to create temporary directory with package.json
 function createTempProject(packageContent, lockfileContent = null) {
@@ -842,7 +842,7 @@ async function cliTest31() {
 
     try {
         const cliPath = path.resolve(__dirname, '../../bin/cli.js')
-        const result = execSync(`node ${cliPath}`, {
+        const result = execFileSync('node', [cliPath], {
             cwd: tmpDir,
             stdio: 'pipe',
             encoding: 'utf8'
