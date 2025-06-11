@@ -30,7 +30,6 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const core = require('@actions/core');
             const coverageSummaryPath = 'coverage/coverage-summary.json'; // Standard path for Jest's json-summary reporter
 
             if (!fs.existsSync(coverageSummaryPath)) {
@@ -47,6 +46,7 @@ jobs:
               core.setOutput('comment_generated', 'false');
               return;
             }
+
             let message = `## 📊 Code Coverage Summary\n\n`;
             message += `| Category    | Percentage | Covered/Total |\n`;
             message += `|-------------|------------|---------------|\n`;
