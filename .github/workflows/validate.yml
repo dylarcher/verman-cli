@@ -35,7 +35,14 @@ jobs:
               return;
             }
 
-            const summary = JSON.parse(fs.readFileSync(coverageSummaryPath, 'utf8'));
+            let summary;
+            try {
+              summary = JSON.parse(fs.readFileSync(coverageSummaryPath, 'utf8'));
+            } catch (error) {
+              core.warning(`Failed to parse JSON from ${coverageSummaryPath}: ${error.message}`);
+              core.setOutput('comment_generated', 'false');
+              return;
+            }
             let message = `## 📊 Code Coverage Summary\n\n`;
             message += `| Category    | Percentage | Covered/Total |\n`;
             message += `|-------------|------------|---------------|\n`;
