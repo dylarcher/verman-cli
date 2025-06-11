@@ -2,7 +2,7 @@ const assert = require('node:assert')
 const fs = require('node:fs')
 const path = require('node:path')
 const os = require('node:os')
-const { execSync } = require('node:child_process')
+const { execSync, execFileSync } = require('node:child_process')
 
 // Test helper to create temporary directory with package.json
 function createTempProject(packageContent, lockfileContent = null) {
@@ -829,12 +829,157 @@ function cliTest30() {
     }
 }
 
+// Test CLI with no arguments in a project with specific dependencies
+async function cliTest31() {
+    const tmpDir = createTempProject(JSON.stringify({
+        name: "test-cli-full-analysis",
+        dependencies: {
+            "react": "^18.0.0",
+            "express": "^4.18.0",
+            "typescript": "^5.0.0"
+        }
+    }))
+
+    try {
+        const cliPath = path.resolve(__dirname, '../../bin/cli.js')
+        const result = execFileSync('node', [cliPath], {
+            cwd: tmpDir,
+            stdio: 'pipe',
+            encoding: 'utf8'
+        })
+
+        assert.ok(result.includes('Version Constraints Summary'))
+        assert.ok(result.includes('Lowest supported Node.js version:'))
+        assert.ok(result.includes('Would you like to update your package.json'))
+    } finally {
+        cleanupTempProject(tmpDir)
+    }
+}
+
+// Test CLI with different command line options
+async function cliTest32() {
+    const tmpDir = createTempProject(JSON.stringify({
+        name: "test-cli-options",
+        dependencies: {
+            "react": "^18.0.0"
+        }
+    }))
+
+    try {
+        const cliPath = path.resolve(__dirname, '../../bin/cli.js')
+
+        // Test --version option
+        const versionResult = execSync(`node ${cliPath} --version`, {
+            cwd: tmpDir,
+            stdio: 'pipe',
+            encoding: 'utf8'
+        })
+        assert.ok(versionResult.includes('1.0.0')) // Version from package.json
+
+        // Test --help option
+        const helpResult = execSync(`node ${cliPath} --help`, {
+            cwd: tmpDir,
+            stdio: 'pipe',
+            encoding: 'utf8'
+        })
+        assert.ok(helpResult.includes('Usage:'))
+        assert.ok(helpResult.includes('Options:'))
+    } finally {
+        cleanupTempProject(tmpDir)
+    }
+}
+
+// Test CLI with json output format
+async function cliTest33() {
+    const tmpDir = createTempProject(JSON.stringify({
+        name: "test-cli-json",
+        dependencies: {
+            "react": "^18.0.0"
+        },
+        engines: {
+            "node": ">=14.0.0"
+        }
+    }))
+
+    try {
+        const cliPath = path.resolve(__dirname, '../../bin/cli.js')
+        const result = execSync(`node ${cliPath} --json`, {
+            cwd: tmpDir,
+            stdio: 'pipe',
+            encoding: 'utf8'
+        })
+
+        const jsonResult = JSON.parse(result)
+        assert.strictEqual(typeof jsonResult, 'object')
+        assert.strictEqual(typeof jsonResult.lowest, 'object')
+        assert.strictEqual(typeof jsonResult.highest, 'object')
+        assert.strictEqual(jsonResult.lowest.node, '14.0.0')
+    } finally {
+        cleanupTempProject(tmpDir)
+    }
+}
+
+// Test CLI with quiet output format
+async function cliTest34() {
+    const tmpDir = createTempProject(JSON.stringify({
+        name: "test-cli-quiet",
+        dependencies: {
+            "react": "^18.0.0"
+        },
+        engines: {
+            "node": ">=14.0.0,<16.0.0"
+        }
+    }))
+
+    try {
+        const cliPath = path.resolve(__dirname, '../../bin/cli.js')
+        const result = execSync(`node ${cliPath} --quiet`, {
+            cwd: tmpDir,
+            stdio: 'pipe',
+            encoding: 'utf8'
+        })
+
+        // Should output just the version numbers
+        const lines = result.trim().split('\n')
+        assert.strictEqual(lines.length, 2)
+        assert.ok(lines[0].startsWith('node:'))
+        assert.ok(lines[1].startsWith('node:'))
+    } finally {
+        cleanupTempProject(tmpDir)
+    }
+}
+
+// Test CLI with custom path
+async function cliTest35() {
+    const tmpDir = createTempProject(JSON.stringify({
+        name: "test-cli-custom-path",
+        dependencies: {
+            "react": "^18.0.0"
+        }
+    }))
+
+    const nestedDir = path.join(tmpDir, 'nested')
+    fs.mkdirSync(nestedDir)
+
+    try {
+        const cliPath = path.resolve(__dirname, '../../bin/cli.js')
+        const result = execSync(`node ${cliPath} --path ${tmpDir}`, {
+            cwd: nestedDir, // Run from a different directory
+            stdio: 'pipe',
+            encoding: 'utf8'
+        })
+
+        assert.ok(result.includes('Version Constraints Summary'))
+        assert.ok(result.includes('test-cli-custom-path'))
+    } finally {
+        cleanupTempProject(tmpDir)
+    }
+}
+
 // Export all test functions and helper functions
 module.exports = {
     // Helper functions
-    createTempProject,
-    cleanupTempProject,
-    runCLI,
+    createTempProject, cleanupTempProject, runCLI,
 
     // Test functions
     cliTest1, cliTest2, cliTest3, cliTest4, cliTest5,
@@ -842,5 +987,7 @@ module.exports = {
     cliTest11, cliTest12, cliTest13, cliTest14, cliTest15,
     cliTest16, cliTest17, cliTest18, cliTest19, cliTest20,
     cliTest21, cliTest22, cliTest23, cliTest24, cliTest25,
-    cliTest26, cliTest27, cliTest28, cliTest29, cliTest30
+    cliTest26, cliTest27, cliTest28, cliTest29, cliTest30,
+    cliTest30, cliTest31, cliTest32, cliTest33, cliTest34,
+    cliTest35
 }
